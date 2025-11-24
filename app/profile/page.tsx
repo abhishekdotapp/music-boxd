@@ -496,20 +496,20 @@ function ProfilePageContent() {
                 </button>
               </div>
 
-              <div className="flex gap-4 mb-4">
+              <div className="flex flex-col sm:flex-row gap-2 mb-4">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                   placeholder={`Search for ${editingType}s...`}
-                  className="flex-1 px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm sm:text-base placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
                   autoFocus
                 />
 
                 <button
                   onClick={handleSearch}
-                  className="btn-primary px-6 py-2"
+                  className="btn-primary px-4 sm:px-6 py-2 text-sm sm:text-base w-full sm:w-auto"
                 >
                   Search
                 </button>
@@ -517,14 +517,14 @@ function ProfilePageContent() {
 
               {/* Search Results */}
               {searchResults.length > 0 && (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4">
                   {searchResults.map(item => (
                     <div key={item.id} className="relative cursor-pointer" onClick={() => handleAddFavorite(item)}>
                       {editingType === 'track' && <SpotifyTrackCard track={item} />}
                       {editingType === 'album' && <SpotifyAlbumCard album={item} />}
                       {editingType === 'artist' && <SpotifyArtistCard artist={item} />}
                       <div className="absolute inset-0 bg-emerald-600/20 hover:bg-emerald-600/40 rounded-lg flex items-center justify-center transition-colors">
-                        <span className="bg-emerald-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                        <span className="bg-emerald-500 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg">
                           Select
                         </span>
                       </div>
@@ -597,8 +597,9 @@ function ProfilePageContent() {
                   return (
                     <div 
                       key={pos} 
-                      className="text-center cursor-pointer group"
+                      className={`text-center ${isOwnProfile ? 'cursor-pointer group' : ''}`}
                       onClick={() => {
+                        if (!isOwnProfile) return;
                         setEditingType('album');
                         setSelectedPosition(pos);
                         setSearchType('album');
@@ -606,19 +607,21 @@ function ProfilePageContent() {
                         setSearchQuery("");
                       }}
                     >
-                      <div className="aspect-square bg-gray-200 dark:bg-zinc-800 rounded-lg mb-2 overflow-hidden relative hover:ring-2 hover:ring-purple-500 transition-all">
+                      <div className={`aspect-square bg-gray-200 dark:bg-zinc-800 rounded-lg mb-2 overflow-hidden relative ${isOwnProfile ? 'hover:ring-2 hover:ring-purple-500' : ''} transition-all`}>
                         {fav?.item_image ? (
                           <img src={fav.item_image} alt={fav.item_name} className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-gray-400">
-                            <Music className="h-12 w-12" />
+                            <Music className="h-8 w-8 sm:h-12 sm:w-12" />
                           </div>
                         )}
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center">
-                          <span className="text-white opacity-0 group-hover:opacity-100 text-sm font-semibold">
-                            Click to {fav ? 'change' : 'add'}
-                          </span>
-                        </div>
+                        {isOwnProfile && (
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+                            <span className="text-white opacity-0 group-hover:opacity-100 text-xs sm:text-sm font-semibold">
+                              {fav ? 'Change' : 'Add'}
+                            </span>
+                          </div>
+                        )}
                       </div>
                       <div className="text-xs text-gray-500 dark:text-gray-500 mb-1">#{pos}</div>
                       <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
@@ -647,8 +650,9 @@ function ProfilePageContent() {
                   return (
                     <div 
                       key={pos} 
-                      className="text-center cursor-pointer group"
+                      className={`text-center ${isOwnProfile ? 'cursor-pointer group' : ''}`}
                       onClick={() => {
+                        if (!isOwnProfile) return;
                         setEditingType('track');
                         setSelectedPosition(pos);
                         setSearchType('track');
@@ -656,19 +660,21 @@ function ProfilePageContent() {
                         setSearchQuery("");
                       }}
                     >
-                      <div className="aspect-square bg-gray-200 dark:bg-zinc-800 rounded-lg mb-2 overflow-hidden relative hover:ring-2 hover:ring-purple-500 transition-all">
+                      <div className={`aspect-square bg-gray-200 dark:bg-zinc-800 rounded-lg mb-2 overflow-hidden relative ${isOwnProfile ? 'hover:ring-2 hover:ring-purple-500' : ''} transition-all`}>
                         {fav?.item_image ? (
                           <img src={fav.item_image} alt={fav.item_name} className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-gray-400">
-                            <Music className="h-12 w-12" />
+                            <Music className="h-8 w-8 sm:h-12 sm:w-12" />
                           </div>
                         )}
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center">
-                          <span className="text-white opacity-0 group-hover:opacity-100 text-sm font-semibold">
-                            Click to {fav ? 'change' : 'add'}
-                          </span>
-                        </div>
+                        {isOwnProfile && (
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+                            <span className="text-white opacity-0 group-hover:opacity-100 text-xs sm:text-sm font-semibold">
+                              {fav ? 'Change' : 'Add'}
+                            </span>
+                          </div>
+                        )}
                       </div>
                       <div className="text-xs text-gray-500 dark:text-gray-500 mb-1">#{pos}</div>
                       <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
@@ -747,22 +753,22 @@ function ProfilePageContent() {
                             </p>
                           )}
                         </div>
-                        <div className="flex items-center gap-3 ml-4 flex-shrink-0">
-                          <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-2 sm:gap-3 ml-2 sm:ml-4 flex-shrink-0">
+                          <div className="flex items-center gap-0.5 sm:gap-1">
                             {[...Array(5)].map((_, i) => {
                               const fullStars = Math.floor(review.rating);
                               const hasHalfStar = review.rating % 1 >= 0.5;
                               
                               if (i < fullStars) {
-                                return <span key={i} className="text-yellow-500 text-lg">★</span>;
+                                return <span key={i} className="text-yellow-500 text-base sm:text-lg">★</span>;
                               } else if (i === fullStars && hasHalfStar) {
-                                return <span key={i} className="text-yellow-500 text-lg">⯨</span>;
+                                return <span key={i} className="text-yellow-500 text-base sm:text-lg">⯨</span>;
                               } else {
-                                return <span key={i} className="text-gray-300 dark:text-gray-600 text-lg">★</span>;
+                                return <span key={i} className="text-gray-300 dark:text-gray-600 text-base sm:text-lg">★</span>;
                               }
                             })}
-                            <span className="text-sm font-bold text-gray-900 dark:text-white ml-2">
-                              {review.rating.toFixed(1)}
+                            <span className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white ml-1 sm:ml-2">
+                              {review.rating % 1 === 0 ? review.rating.toFixed(0) : review.rating.toFixed(1)}
                             </span>
                           </div>
                           {isOwnProfile && (

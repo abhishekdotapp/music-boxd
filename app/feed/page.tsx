@@ -121,7 +121,7 @@ export default function FeedPage() {
             }`}
           />
         ))}
-        <span className="ml-2 text-sm text-gray-400">{rating.toFixed(1)}</span>
+        <span className="ml-2 text-sm text-gray-400">{rating % 1 === 0 ? rating.toFixed(0) : rating.toFixed(1)}</span>
       </div>
     );
   };

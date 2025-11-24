@@ -284,7 +284,7 @@ export default function AlbumPage() {
                   </p>
                   {albumRating > 0 && (
                     <span className="text-lg font-bold text-purple-600 dark:text-purple-400">
-                      ⭐ {albumRating.toFixed(1)}
+                      ⭐ {albumRating % 1 === 0 ? albumRating.toFixed(0) : albumRating.toFixed(1)}
                     </span>
                   )}
                 </div>
@@ -327,7 +327,7 @@ export default function AlbumPage() {
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Avg Track Rating</p>
                   <p className="text-gray-900 dark:text-white font-semibold">
-                    {avgRating > 0 ? `⭐ ${avgRating.toFixed(1)}` : 'Not rated'}
+                    {avgRating > 0 ? `⭐ ${avgRating % 1 === 0 ? avgRating.toFixed(0) : avgRating.toFixed(1)}` : 'Not rated'}
                   </p>
                 </div>
               </div>

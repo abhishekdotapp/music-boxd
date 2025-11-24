@@ -679,22 +679,25 @@ export default function DashboardPage() {
                                   <span className="text-sm font-medium text-gray-300">
                                     {review.user_profiles?.username}
                                   </span>
-                                  <div className="flex items-center gap-1 ml-auto">
-                                    {[...Array(5)].map((_, i) => (
-                                      <svg
-                                        key={i}
-                                        className={`h-3 w-3 ${
-                                          i < Math.floor(review.rating)
-                                            ? 'fill-emerald-400 text-emerald-400'
-                                            : 'text-gray-600'
-                                        }`}
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="currentColor"
-                                      >
-                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                      </svg>
-                                    ))}
+                                  <div className="flex items-center gap-0.5 ml-auto">
+                                    {[...Array(5)].map((_, i) => {
+                                      const fullStars = Math.floor(review.rating);
+                                      const hasHalfStar = review.rating % 1 >= 0.5;
+                                      
+                                      if (i < fullStars) {
+                                        return (
+                                          <span key={i} className="text-emerald-400 text-sm">★</span>
+                                        );
+                                      } else if (i === fullStars && hasHalfStar) {
+                                        return (
+                                          <span key={i} className="text-emerald-400 text-sm">⯨</span>
+                                        );
+                                      } else {
+                                        return (
+                                          <span key={i} className="text-gray-600 text-sm">★</span>
+                                        );
+                                      }
+                                    })}
                                   </div>
                                 </div>
                                 <h4 className="font-semibold text-white text-sm truncate mb-1">

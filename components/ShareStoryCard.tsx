@@ -109,11 +109,21 @@ export function ShareStoryCard({
     // Stars
     const starY = y + 150;
     ctx.font = '80px system-ui, -apple-system, sans-serif';
-    let starX = 540 - (rating * 50);
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    let starX = 540 - (2.5 * 100);
     
     for (let i = 0; i < 5; i++) {
-      ctx.fillStyle = i < rating ? '#fbbf24' : '#4b5563';
-      ctx.fillText('★', starX, starY);
+      if (i < fullStars) {
+        ctx.fillStyle = '#fbbf24';
+        ctx.fillText('★', starX, starY);
+      } else if (i === fullStars && hasHalfStar) {
+        ctx.fillStyle = '#fbbf24';
+        ctx.fillText('⯨', starX, starY);
+      } else {
+        ctx.fillStyle = '#4b5563';
+        ctx.fillText('★', starX, starY);
+      }
       starX += 100;
     }
 
@@ -265,11 +275,18 @@ export function ShareStoryCard({
   };
 
   const renderStars = (rating: number) => {
-    return [...Array(5)].map((_, i) => (
-      <span key={i} className={i < rating ? "text-yellow-400" : "text-gray-600"}>
-        ★
-      </span>
-    ));
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    
+    return [...Array(5)].map((_, i) => {
+      if (i < fullStars) {
+        return <span key={i} className="text-yellow-400">★</span>;
+      } else if (i === fullStars && hasHalfStar) {
+        return <span key={i} className="text-yellow-400">⯨</span>;
+      } else {
+        return <span key={i} className="text-gray-600">★</span>;
+      }
+    });
   };
 
   return (
