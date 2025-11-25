@@ -106,27 +106,27 @@ export default function FeedPage() {
   const renderStars = (rating: number) => {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
-    
+
     return (
       <div className="flex items-center gap-0.5">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`h-4 w-4 ${
-              i < fullStars
-                ? 'fill-emerald-400 text-emerald-400'
-                : i === fullStars && hasHalfStar
-                ? 'fill-emerald-400 text-emerald-400 opacity-50'
-                : 'text-gray-600'
-            }`}
-          />
-        ))}
+        {[...Array(5)].map((_, i) => {
+          if (i < fullStars) {
+            return <span key={i} className="text-emerald-400 text-lg">★</span>;
+          } else if (i === fullStars && hasHalfStar) {
+            return (
+              <span key={i} className="relative inline-block text-lg">
+                <span className="text-gray-600">★</span>
+                <span className="absolute left-0 top-0 overflow-hidden text-emerald-400" style={{width: '50%'}}>★</span>
+              </span>
+            );
+          } else {
+            return <span key={i} className="text-gray-600 text-lg">★</span>;
+          }
+        })}
         <span className="ml-2 text-sm text-gray-400">{rating % 1 === 0 ? rating.toFixed(0) : rating.toFixed(1)}</span>
       </div>
     );
-  };
-
-  if (loading) {
+  };  if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#14181c]">
         <div className="text-center">

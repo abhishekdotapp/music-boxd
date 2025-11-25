@@ -762,7 +762,12 @@ function ProfilePageContent() {
                               if (i < fullStars) {
                                 return <span key={i} className="text-yellow-500 text-base sm:text-lg">★</span>;
                               } else if (i === fullStars && hasHalfStar) {
-                                return <span key={i} className="text-yellow-500 text-base sm:text-lg">⯨</span>;
+                                return (
+                                  <span key={i} className="relative inline-block text-base sm:text-lg">
+                                    <span className="text-gray-300 dark:text-gray-600">★</span>
+                                    <span className="absolute left-0 top-0 overflow-hidden text-yellow-500" style={{width: '50%'}}>★</span>
+                                  </span>
+                                );
                               } else {
                                 return <span key={i} className="text-gray-300 dark:text-gray-600 text-base sm:text-lg">★</span>;
                               }

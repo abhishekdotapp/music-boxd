@@ -690,7 +690,10 @@ export default function DashboardPage() {
                                         );
                                       } else if (i === fullStars && hasHalfStar) {
                                         return (
-                                          <span key={i} className="text-emerald-400 text-sm">⯨</span>
+                                          <span key={i} className="relative inline-block text-sm">
+                                            <span className="text-gray-600">★</span>
+                                            <span className="absolute left-0 top-0 overflow-hidden text-emerald-400" style={{width: '50%'}}>★</span>
+                                          </span>
                                         );
                                       } else {
                                         return (

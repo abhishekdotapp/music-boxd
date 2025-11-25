@@ -118,8 +118,22 @@ export function ShareStoryCard({
         ctx.fillStyle = '#fbbf24';
         ctx.fillText('★', starX, starY);
       } else if (i === fullStars && hasHalfStar) {
+        // Draw half star by clipping
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(starX - 40, starY - 80, 40, 100);
+        ctx.clip();
         ctx.fillStyle = '#fbbf24';
-        ctx.fillText('⯨', starX, starY);
+        ctx.fillText('★', starX, starY);
+        ctx.restore();
+        
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(starX, starY - 80, 40, 100);
+        ctx.clip();
+        ctx.fillStyle = '#4b5563';
+        ctx.fillText('★', starX, starY);
+        ctx.restore();
       } else {
         ctx.fillStyle = '#4b5563';
         ctx.fillText('★', starX, starY);
@@ -282,7 +296,12 @@ export function ShareStoryCard({
       if (i < fullStars) {
         return <span key={i} className="text-yellow-400">★</span>;
       } else if (i === fullStars && hasHalfStar) {
-        return <span key={i} className="text-yellow-400">⯨</span>;
+        return (
+          <span key={i} className="relative inline-block">
+            <span className="text-gray-600">★</span>
+            <span className="absolute left-0 top-0 overflow-hidden text-yellow-400" style={{width: '50%'}}>★</span>
+          </span>
+        );
       } else {
         return <span key={i} className="text-gray-600">★</span>;
       }

@@ -188,18 +188,20 @@ export default function TrackPage() {
     
     return (
       <div className="flex items-center gap-0.5">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`h-4 w-4 ${
-              i < fullStars
-                ? 'fill-yellow-400 text-yellow-400'
-                : i === fullStars && hasHalfStar
-                ? 'fill-yellow-400 text-yellow-400 opacity-50'
-                : 'text-gray-300 dark:text-gray-600'
-            }`}
-          />
-        ))}
+        {[...Array(5)].map((_, i) => {
+          if (i < fullStars) {
+            return <span key={i} className="text-yellow-400 text-lg">★</span>;
+          } else if (i === fullStars && hasHalfStar) {
+            return (
+              <span key={i} className="relative inline-block text-lg">
+                <span className="text-gray-300 dark:text-gray-600">★</span>
+                <span className="absolute left-0 top-0 overflow-hidden text-yellow-400" style={{width: '50%'}}>★</span>
+              </span>
+            );
+          } else {
+            return <span key={i} className="text-gray-300 dark:text-gray-600 text-lg">★</span>;
+          }
+        })}
         <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">{rating % 1 === 0 ? rating.toFixed(0) : rating.toFixed(1)}</span>
       </div>
     );
