@@ -35,7 +35,7 @@ export function ShareStoryCard({
     
     if (!ctx) throw new Error('Could not get canvas context');
 
-    // Background gradient
+    // Background gradient (full rectangle for compatibility)
     const gradient = ctx.createLinearGradient(0, 0, 1080, 1920);
     gradient.addColorStop(0, '#14181c');
     gradient.addColorStop(0.5, '#1a1f26');
@@ -109,9 +109,13 @@ export function ShareStoryCard({
     // Stars
     const starY = y + 150;
     ctx.font = '80px system-ui, -apple-system, sans-serif';
+    ctx.textAlign = 'center';
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
-    let starX = 540 - (2.5 * 100);
+    
+    // Calculate total width and starting position for centering
+    const totalStarWidth = 5 * 80; // 5 stars * approximate width
+    let starX = 540 - (totalStarWidth / 2) + 40; // Center point - half width + half star
     
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
@@ -138,7 +142,7 @@ export function ShareStoryCard({
         ctx.fillStyle = '#4b5563';
         ctx.fillText('★', starX, starY);
       }
-      starX += 100;
+      starX += 80;
     }
 
     // Review text if exists
@@ -342,7 +346,7 @@ export function ShareStoryCard({
 
         {/* Story Card Preview */}
         <div className="bg-white/10 rounded-lg p-2 sm:p-4 flex justify-center items-center">
-          <div className="relative overflow-hidden" style={{ width: 'min(324px, calc(100vw - 32px))', height: 'min(576px, calc((100vw - 32px) * 16 / 9))' }}>
+          <div className="relative overflow-hidden rounded-2xl" style={{ width: 'min(324px, calc(100vw - 32px))', height: 'min(576px, calc((100vw - 32px) * 16 / 9))' }}>
             <div
               ref={cardRef}
               className="absolute top-0 left-0"
@@ -351,6 +355,7 @@ export function ShareStoryCard({
                 height: '1920px',
                 transform: `scale(${Math.min(324, window.innerWidth - 32) / 1080})`,
                 transformOrigin: 'top left',
+                borderRadius: '48px'
               }}
             >
             {/* Card Background */}
@@ -360,7 +365,8 @@ export function ShareStoryCard({
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'linear-gradient(135deg, #14181c 0%, #1a1f26 50%, #14181c 100%)'
+              background: 'linear-gradient(135deg, #14181c 0%, #1a1f26 50%, #14181c 100%)',
+              borderRadius: '48px'
             }}>
               {/* Subtle pattern overlay */}
               <div style={{
